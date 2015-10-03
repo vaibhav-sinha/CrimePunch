@@ -1,10 +1,15 @@
 package com.crimepunch.app.fragment;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import com.crimepunch.app.*;
+import com.crimepunch.app.R;
 import com.crimepunch.app.application.CrimePunchApplication;
 import com.crimepunch.app.model.GoogleMapCluster;
 import com.crimepunch.app.model.GridPoint;
 import com.crimepunch.app.model.PointEntity;
+import com.crimepunch.app.model.PointType;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 import com.google.maps.android.clustering.ClusterManager;
@@ -190,18 +195,35 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
         uiSettings.setCompassEnabled(false);
     }
 
-    public void addMarkers(List<GridPoint> gridPointList) {
+    public void addMarkers(List<GridPoint> gridPointList, List<PointEntity> pointEntityList) {
         clearMap();
         Marker m;
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
         for(GridPoint gridPoint : gridPointList) {
+            float hue = gridPoint.getScore() > 10 ? gridPoint.getScore() > 20 ? BitmapDescriptorFactory.HUE_RED : BitmapDescriptorFactory.HUE_YELLOW : BitmapDescriptorFactory.HUE_GREEN;
+
             markerOptions = new MarkerOptions();
             markerOptions.visible(true);
             markerOptions.position(new LatLng(gridPoint.getLocation().getLatitude().doubleValue(), gridPoint.getLocation().getLongitude().doubleValue()));
             markerOptions.draggable(false);
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(hue));
+
             m = googleMap.addMarker(markerOptions);
             gridMap.put(m.getId(), gridPoint);
+            builder.include(m.getPosition());
+        }
+
+        for (PointEntity pointEntity : pointEntityList) {
+            Bitmap icon = pointEntity.getPointType().equals(PointType.PERSON) ? BitmapFactory.decodeResource(getResources(), R.drawable.man) : pointEntity.getPointType().equals(PointType.POLICE_STATION) ? BitmapFactory.decodeResource(getResources(), R.drawable.police) : BitmapFactory.decodeResource(getResources(), R.drawable.hospital);
+            markerOptions = new MarkerOptions();
+            markerOptions.visible(true);
+            markerOptions.position(new LatLng(pointEntity.getLocation().getLatitude().doubleValue(), pointEntity.getLocation().getLongitude().doubleValue()));
+            markerOptions.draggable(false);
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
+
+            m = googleMap.addMarker(markerOptions);
+            pointMap.put(m.getId(), pointEntity);
             builder.include(m.getPosition());
         }
 
