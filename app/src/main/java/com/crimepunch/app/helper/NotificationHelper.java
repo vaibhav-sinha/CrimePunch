@@ -18,8 +18,8 @@ public class NotificationHelper {
 
     public void sendComplaintUpdateNotification(Context caller, String msg, Bitmap icon, int id) {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Intent toLaunch;
-        toLaunch = new Intent(caller, null);
+        //Intent toLaunch;
+        //toLaunch = new Intent(caller, null);
 
         PendingIntent intentBack = PendingIntent.getActivity(caller, 0, new Intent(), PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -27,10 +27,11 @@ public class NotificationHelper {
 
         NotificationManager notifier = (NotificationManager) caller.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(caller)
-                        .setContentTitle("Crime Punch : Be alert. Entering unsafe zone")
-                        .setContentText(msg)
-                        .setAutoCancel(true)
-                        .setContentIntent(intentBack);
+                .setSmallIcon(R.drawable.bubble_mask)
+                .setContentTitle("Crime Punch : Be alert. Entering unsafe zone")
+                .setContentText(msg)
+                .setAutoCancel(true)
+                .setContentIntent(intentBack);
 
         if(icon != null) {
             mBuilder.setLargeIcon(icon);

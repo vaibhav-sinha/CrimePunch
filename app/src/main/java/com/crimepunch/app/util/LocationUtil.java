@@ -46,8 +46,8 @@ public class LocationUtil extends BaseClass implements GoogleApiClient.Connectio
                     .build();
             locationRequest = LocationRequest.create();
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            locationRequest.setInterval(3000);
-            locationRequest.setFastestInterval(1000);
+            locationRequest.setInterval(10000);
+            locationRequest.setFastestInterval(10000);
             setupDone = true;
         }
     }

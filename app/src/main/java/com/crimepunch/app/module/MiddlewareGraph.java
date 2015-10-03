@@ -8,9 +8,12 @@ import com.crimepunch.app.activity.ProfileActivity;
 import com.crimepunch.app.activity.RegistrationActivity;
 import com.crimepunch.app.datastore.Server;
 import com.crimepunch.app.datastore.ServerImpl;
+import com.crimepunch.app.fragment.GoogleMapFragment;
+import com.crimepunch.app.helper.NetworkAccessHelper;
 import com.crimepunch.app.helper.NotificationHelper;
 import com.crimepunch.app.helper.Session;
 import com.crimepunch.app.helper.SharedPreferencesHelper;
+import com.crimepunch.app.service.WatchdogService;
 import com.crimepunch.app.util.LocationUtil;
 import com.crimepunch.app.volley.LocationUpdateRequest;
 import com.crimepunch.app.volley.SaveUserRequest;
@@ -32,7 +35,11 @@ import javax.inject.Singleton;
                 SaveUserRequest.class,
                 LocationUtil.class,
                 LocationUpdateRequest.class,
-                NotificationHelper.class
+                NotificationHelper.class,
+                Session.class,
+                NetworkAccessHelper.class,
+                GoogleMapFragment.class,
+                WatchdogService.class
         },
         library = true,
         complete = true

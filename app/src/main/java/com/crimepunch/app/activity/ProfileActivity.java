@@ -79,6 +79,9 @@ public class ProfileActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         eventBus.register(this);
+        if(session.getUser(this) != null) {
+            startHomeActivity();
+        }
     }
 
     @Override

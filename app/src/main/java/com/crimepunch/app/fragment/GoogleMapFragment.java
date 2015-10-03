@@ -85,6 +85,7 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         this.googleMap = googleMap;
+        googleMap.setMyLocationEnabled(true);
         if(callback != null) {
             callback.onMapReady(googleMap);
         }
