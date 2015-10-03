@@ -9,4 +9,5 @@ public class Constants {
     public static final String TWITTER_SECRET = "O6vzzP0tmVrvuw5JiFhnw3EIQTCCa7gKl776cGZjMQcv2G50zc";
 
     public static final String SAVE_PROFILE_URL = "";
+    public static final String LOCATION_UPDATE_URL = "";
 }

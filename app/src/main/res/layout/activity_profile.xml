@@ -6,14 +6,14 @@
 
     <EditText android:id="@+id/ap_name"
               android:layout_width="match_parent"
-              android:layout_height="0"
+              android:layout_height="0dp"
               android:layout_weight="1"
               android:inputType="textPersonName"
               android:hint="Name"/>
 
     <EditText android:id="@+id/ap_address"
               android:layout_width="match_parent"
-              android:layout_height="0"
+              android:layout_height="0dp"
               android:layout_weight="1"
               android:inputType="textPostalAddress"
               android:hint="Address"/>

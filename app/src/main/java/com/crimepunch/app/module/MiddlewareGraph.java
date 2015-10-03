@@ -10,6 +10,8 @@ import com.crimepunch.app.datastore.Server;
 import com.crimepunch.app.datastore.ServerImpl;
 import com.crimepunch.app.helper.Session;
 import com.crimepunch.app.helper.SharedPreferencesHelper;
+import com.crimepunch.app.util.LocationUtil;
+import com.crimepunch.app.volley.LocationUpdateRequest;
 import com.crimepunch.app.volley.SaveUserRequest;
 import dagger.Module;
 import dagger.Provides;
@@ -26,7 +28,9 @@ import javax.inject.Singleton;
                 ProfileActivity.class,
                 HomeActivity.class,
                 ServerImpl.class,
-                SaveUserRequest.class
+                SaveUserRequest.class,
+                LocationUtil.class,
+                LocationUpdateRequest.class
         },
         library = true,
         complete = true
@@ -78,5 +82,17 @@ public class MiddlewareGraph {
     @Singleton
     public SaveUserRequest provideSaveUserRequest() {
         return new SaveUserRequest();
+    }
+
+    @Provides
+    @Singleton
+    public LocationUtil provideLocationUtil() {
+        return new LocationUtil();
+    }
+
+    @Provides
+    @Singleton
+    public LocationUpdateRequest provideLocationUpdateRequest() {
+        return new LocationUpdateRequest();
     }
 }

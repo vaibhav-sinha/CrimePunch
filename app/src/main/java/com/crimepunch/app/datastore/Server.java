@@ -3,6 +3,7 @@ package com.crimepunch.app.datastore;
 import android.content.Context;
 import com.crimepunch.app.base.BaseClass;
 import com.crimepunch.app.model.User;
+import com.crimepunch.app.model.UserLocationUpdate;
 
 import javax.inject.Inject;
 
@@ -12,4 +13,5 @@ import javax.inject.Inject;
 public interface Server {
 
     void registerUser(Context context, User user);
+    void sendLocationUpdate(Context context, UserLocationUpdate userLocationUpdate);
 }
