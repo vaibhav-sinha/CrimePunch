@@ -6,6 +6,7 @@ import com.android.volley.toolbox.Volley;
 import com.crimepunch.app.activity.HomeActivity;
 import com.crimepunch.app.activity.ProfileActivity;
 import com.crimepunch.app.activity.RegistrationActivity;
+import com.crimepunch.app.activity.SosActivity;
 import com.crimepunch.app.datastore.Server;
 import com.crimepunch.app.datastore.ServerImpl;
 import com.crimepunch.app.fragment.GoogleMapFragment;
@@ -13,10 +14,13 @@ import com.crimepunch.app.helper.NetworkAccessHelper;
 import com.crimepunch.app.helper.NotificationHelper;
 import com.crimepunch.app.helper.Session;
 import com.crimepunch.app.helper.SharedPreferencesHelper;
+import com.crimepunch.app.service.GcmService;
+import com.crimepunch.app.service.RegistrationIntentService;
 import com.crimepunch.app.service.WatchdogService;
 import com.crimepunch.app.util.LocationUtil;
 import com.crimepunch.app.volley.LocationUpdateRequest;
 import com.crimepunch.app.volley.SaveUserRequest;
+import com.crimepunch.app.volley.SosRequest;
 import dagger.Module;
 import dagger.Provides;
 import de.greenrobot.event.EventBus;
@@ -39,7 +43,11 @@ import javax.inject.Singleton;
                 Session.class,
                 NetworkAccessHelper.class,
                 GoogleMapFragment.class,
-                WatchdogService.class
+                WatchdogService.class,
+                SosRequest.class,
+                RegistrationIntentService.class,
+                GcmService.class,
+                SosActivity.class
         },
         library = true,
         complete = true
@@ -109,5 +117,11 @@ public class MiddlewareGraph {
     @Singleton
     public NotificationHelper provideNotificationHelper() {
         return new NotificationHelper();
+    }
+
+    @Provides
+    @Singleton
+    public SosRequest provideSosRequest() {
+        return new SosRequest();
     }
 }

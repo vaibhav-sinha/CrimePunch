@@ -6,6 +6,7 @@ import com.crimepunch.app.model.User;
 import com.crimepunch.app.model.UserLocationUpdate;
 import com.crimepunch.app.volley.LocationUpdateRequest;
 import com.crimepunch.app.volley.SaveUserRequest;
+import com.crimepunch.app.volley.SosRequest;
 
 import javax.inject.Inject;
 
@@ -20,6 +21,9 @@ public class ServerImpl extends BaseClass implements Server {
     @Inject
     LocationUpdateRequest locationUpdateRequest;
 
+    @Inject
+    SosRequest sosRequest;
+
 
     @Override
     public void registerUser(Context context, User user) {
@@ -29,5 +33,10 @@ public class ServerImpl extends BaseClass implements Server {
     @Override
     public void sendLocationUpdate(Context context, UserLocationUpdate userLocationUpdate) {
         locationUpdateRequest.processRequest(context, userLocationUpdate);
+    }
+
+    @Override
+    public void sendSosRequest(Context context, UserLocationUpdate userLocationUpdate) {
+        sosRequest.processRequest(context, userLocationUpdate);
     }
 }

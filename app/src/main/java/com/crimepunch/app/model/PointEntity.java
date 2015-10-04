@@ -9,7 +9,6 @@ import java.util.Map;
  */
 @Data
 public class PointEntity {
-    String id;
     Location location;
     PointType pointType;
     Map<String,Object> attributes;

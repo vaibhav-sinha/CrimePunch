@@ -1,10 +1,14 @@
 package com.crimepunch.app.activity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 import com.crimepunch.app.R;
 import com.crimepunch.app.base.BaseActivity;
 import com.crimepunch.app.datastore.Server;
 import com.crimepunch.app.event.LocationDataUpdateEvent;
+import com.crimepunch.app.event.SosSentEvent;
 import com.crimepunch.app.fragment.GoogleMapFragment;
 import com.crimepunch.app.helper.NotificationHelper;
 import com.crimepunch.app.helper.Session;
@@ -42,6 +46,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback {
     NotificationHelper notificationHelper;
 
     private GoogleMapFragment googleMapFragment;
+    private Button sos;
     private Boolean mapReady = false;
     private android.location.Location location;
     private Boolean alarmShown = false;
@@ -53,6 +58,19 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback {
 
         googleMapFragment = (GoogleMapFragment) getSupportFragmentManager().findFragmentById(R.id.ah_map);
         googleMapFragment.setContext(this);
+
+        sos = (Button) findViewById(R.id.ah_sos);
+        sos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (location != null) {
+                    UserLocationUpdate userLocationUpdate = new UserLocationUpdate();
+                    userLocationUpdate.setId(session.getUser(getBaseContext()).getId());
+                    userLocationUpdate.setLocation(new Location(BigDecimal.valueOf(location.getLatitude()), BigDecimal.valueOf(location.getLongitude())));
+                    server.sendSosRequest(getBaseContext(), userLocationUpdate);
+                }
+            }
+        });
     }
 
     @Override
@@ -84,6 +102,15 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback {
         }
     }
 
+    public void onEventMainThread(SosSentEvent event) {
+        if(event.getSuccess()) {
+            Toast.makeText(this, "SOS signal sent successfully.", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(this, "SOS signal failed. Please try again", Toast.LENGTH_LONG).show();
+        }
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mapReady = true;
@@ -96,7 +123,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback {
                 gp.setLatitude(gridPoint.getLocation().getLatitude().doubleValue());
                 gp.setLongitude(gridPoint.getLocation().getLongitude().doubleValue());
 
-                if (location.distanceTo(gp) < 100) {
+                if (location.distanceTo(gp) < 100 && gridPoint.getScore() > 20) {
                     String message = "Be careful. This area has seen multiple instances of";
                     for(CrimeType crimeType : crimeTypeList) {
                         message = message + ", " + crimeType;

@@ -14,4 +14,5 @@ public interface Server {
 
     void registerUser(Context context, User user);
     void sendLocationUpdate(Context context, UserLocationUpdate userLocationUpdate);
+    void sendSosRequest(Context context, UserLocationUpdate userLocationUpdate);
 }

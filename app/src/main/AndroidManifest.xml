@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.crimepunch.app" >
+          package="com.crimepunch.app" >
 
     <application android:name=".application.CrimePunchApplication"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+                 android:allowBackup="true"
+                 android:icon="@mipmap/ic_launcher"
+                 android:label="@string/app_name"
+                 android:theme="@style/AppTheme" >
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCxBioAXeDSmTBOZh655mwFC3sJb0a3LM8" />
         <activity
-            android:name=".activity.RegistrationActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:theme="@style/FullscreenTheme" >
+                android:name=".activity.RegistrationActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/app_name"
+                android:theme="@style/FullscreenTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,14 +31,44 @@
                 android:label="@string/app_name"
                 android:theme="@style/FullscreenTheme" >
         </activity>
+        <activity
+                android:name=".activity.SosActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:label="@string/app_name"
+                android:theme="@style/FullscreenTheme" >
+        </activity>
         <receiver android:name=".receiver.PhoneBootedBroadcastReceiver" android:enabled="true" android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
         <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="23ee576e96663bcd512664320b4fae055aced965" />
+                android:name="io.fabric.ApiKey"
+                android:value="23ee576e96663bcd512664320b4fae055aced965" />
+
+        <receiver
+                android:name="com.google.android.gms.gcm.GcmReceiver"
+                android:exported="true"
+                android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.crimepunch.app" />
+            </intent-filter>
+        </receiver>
+        <service
+                android:name="com.crimepunch.app.service.GcmService"
+                android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+                android:name="com.crimepunch.app.service.CpInstanceIdListenerService"
+                android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -46,4 +76,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <permission android:name="com.crimepunch.app.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="com.crimepunch.app.permission.C2D_MESSAGE"/>
 </manifest>

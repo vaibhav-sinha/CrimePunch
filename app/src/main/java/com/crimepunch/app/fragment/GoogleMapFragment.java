@@ -202,13 +202,15 @@ public class GoogleMapFragment extends SupportMapFragment implements OnMapReadyC
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
         for(GridPoint gridPoint : gridPointList) {
+            Bitmap icon = gridPoint.getScore() > 10 ? gridPoint.getScore() > 20 ? BitmapFactory.decodeResource(getResources(), R.drawable.red_dot) : BitmapFactory.decodeResource(getResources(), R.drawable.yellow_dot) : BitmapFactory.decodeResource(getResources(), R.drawable.green_dot);
             float hue = gridPoint.getScore() > 10 ? gridPoint.getScore() > 20 ? BitmapDescriptorFactory.HUE_RED : BitmapDescriptorFactory.HUE_YELLOW : BitmapDescriptorFactory.HUE_GREEN;
 
             markerOptions = new MarkerOptions();
             markerOptions.visible(true);
             markerOptions.position(new LatLng(gridPoint.getLocation().getLatitude().doubleValue(), gridPoint.getLocation().getLongitude().doubleValue()));
             markerOptions.draggable(false);
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(hue));
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
+            //markerOptions.icon(BitmapDescriptorFactory.defaultMarker(hue));
 
             m = googleMap.addMarker(markerOptions);
             gridMap.put(m.getId(), gridPoint);
